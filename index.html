@@ -1,0 +1,1381 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UIT Project | Quản lý đồ án</title>
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --surface: #fff;
+        --ink: #172b4d;
+        --muted: #75839a;
+        --line: #e7ecf3;
+        --blue: #3159e8;
+        --navy: #122445;
+        --green: #12866b;
+        --radius: 18px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--bg);
+        font:
+          15px/1.6 system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      button,
+      input,
+      textarea,
+      select {
+        font: inherit;
+      }
+      button,
+      a,
+      input,
+      textarea,
+      select {
+        outline-offset: 4px;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      a {
+        color: var(--blue);
+        overflow-wrap: anywhere;
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+      h1 {
+        font-size: 30px;
+        line-height: 1.25;
+        letter-spacing: -1px;
+      }
+      h2 {
+        font-size: 19px;
+      }
+      h3 {
+        font-size: 16px;
+      }
+      small,
+      .muted {
+        color: var(--muted);
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        font-weight: 650;
+        margin-bottom: 6px;
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        border: 1px solid #dbe2ed;
+        border-radius: 10px;
+        padding: 11px 13px;
+        background: white;
+        color: var(--ink);
+      }
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: var(--blue);
+      }
+      .field {
+        margin-bottom: 17px;
+      }
+      .btn {
+        border: 0;
+        padding: 10px 17px;
+        border-radius: 10px;
+        background: var(--blue);
+        color: white;
+        font-weight: 650;
+      }
+      .btn.light {
+        background: #edf2ff;
+        color: var(--blue);
+      }
+      .btn.outline {
+        background: white;
+        border: 1px solid var(--line);
+        color: var(--ink);
+      }
+      .btn.danger {
+        background: #fff0f0;
+        color: #c34141;
+      }
+      .btn.small {
+        font-size: 12px;
+        padding: 7px 11px;
+      }
+      .flex {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .between {
+        justify-content: space-between;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 22px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 24px;
+        margin-bottom: 22px;
+      }
+      .card p:last-child {
+        margin-bottom: 0;
+      }
+      .tag {
+        display: inline-block;
+        border-radius: 7px;
+        padding: 4px 9px;
+        font-size: 11px;
+        font-weight: 750;
+        background: #edf2ff;
+        color: var(--blue);
+      }
+      .tag.green {
+        background: #e5f6ef;
+        color: var(--green);
+      }
+      .tag.orange {
+        background: #fff3df;
+        color: #a16a16;
+      }
+      .tag.red {
+        background: #fff0f0;
+        color: #bf4545;
+      }
+      .logo {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font-weight: 750;
+        font-size: 20px;
+      }
+      .mark {
+        width: 39px;
+        height: 39px;
+        display: grid;
+        place-items: center;
+        background: var(--blue);
+        color: white;
+        border-radius: 12px;
+        font-size: 18px;
+      }
+      .login {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+      }
+      .login-story {
+        background: var(--navy);
+        color: white;
+        padding: 65px 9%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+      }
+      .login-story::after {
+        content: "";
+        position: absolute;
+        width: 470px;
+        height: 470px;
+        border: 1px solid #ffffff12;
+        border-radius: 50%;
+        right: -180px;
+        bottom: -170px;
+        box-shadow:
+          0 0 0 60px #ffffff04,
+          0 0 0 120px #ffffff03;
+      }
+      .login-story h1 {
+        font-size: clamp(36px, 4.5vw, sixty);
+        font-size: 48px;
+        max-width: 480px;
+      }
+      .login-story p {
+        color: #acbad1;
+        max-width: 420px;
+      }
+      .login-story .tag {
+        background: #ffffff15;
+        color: #b6c7ff;
+        margin-bottom: 22px;
+      }
+      .login-form {
+        display: grid;
+        place-items: center;
+        padding: 40px 24px;
+      }
+      .login-box {
+        width: 100%;
+        max-width: 390px;
+      }
+      .login-box h1 {
+        margin-bottom: 8px;
+      }
+      .demo {
+        background: #eaf0ff;
+        border-radius: 12px;
+        padding: 15px;
+        font-size: 13px;
+        margin-top: 25px;
+      }
+      .error {
+        color: #bc3535;
+        min-height: 24px;
+        font-size: 13px;
+      }
+      .sidebar {
+        width: 244px;
+        position: fixed;
+        inset: 0 auto 0 0;
+        background: white;
+        border-right: 1px solid var(--line);
+        padding: 28px 20px;
+        display: flex;
+        flex-direction: column;
+        z-index: 10;
+      }
+      .sidebar .logo {
+        margin: 0 8px 42px;
+      }
+      .nav-label {
+        font-size: 10px;
+        color: var(--muted);
+        letter-spacing: 1.5px;
+        margin: 0 13px 12px;
+      }
+      .nav-item {
+        width: 100%;
+        text-align: left;
+        padding: 12px 15px;
+        background: none;
+        border: 0;
+        border-radius: 10px;
+        color: #697991;
+        margin-bottom: 7px;
+      }
+      .nav-item.active {
+        background: #edf2ff;
+        color: var(--blue);
+        font-weight: 700;
+      }
+      .sidebar-bottom {
+        margin-top: auto;
+      }
+      .note {
+        font-size: 12px;
+        color: var(--muted);
+        background: var(--bg);
+        padding: 14px;
+        border-radius: 12px;
+      }
+      .main {
+        margin-left: 244px;
+      }
+      .topbar {
+        height: 81px;
+        padding: 0 38px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+      }
+      .avatar {
+        width: 37px;
+        height: 37px;
+        border-radius: 50%;
+        background: #e8edff;
+        color: var(--blue);
+        display: grid;
+        place-items: center;
+        font-weight: 750;
+      }
+      .content {
+        max-width: 1320px;
+        margin: auto;
+        padding: 34px 38px;
+      }
+      .heading {
+        margin-bottom: 24px;
+      }
+      .heading h1 {
+        margin-bottom: 7px;
+      }
+      .banner {
+        border-radius: 18px;
+        background: var(--navy);
+        color: white;
+        padding: 26px 30px;
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+      }
+      .banner p {
+        color: #b4c3dc;
+        margin-bottom: 0;
+        font-size: 14px;
+      }
+      .banner .tag {
+        background: #ffffff18;
+        color: #bfd0ff;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 17px;
+        margin-bottom: 24px;
+      }
+      .stat {
+        background: white;
+        padding: 19px 22px;
+        border: 1px solid var(--line);
+        border-radius: 15px;
+      }
+      .stat strong {
+        font-size: 29px;
+        display: block;
+        margin-top: 9px;
+      }
+      .stat small {
+        font-size: 12px;
+      }
+      .stat .dot {
+        float: right;
+        width: 10px;
+        height: 10px;
+        background: #7c96f7;
+        border-radius: 50%;
+        margin-top: 8px;
+      }
+      .project {
+        transition: transform 0.2s;
+      }
+      .project:hover {
+        transform: translateY(-2px);
+      }
+      .project h2 {
+        margin: 14px 0 7px;
+      }
+      .bar {
+        height: 7px;
+        border-radius: 20px;
+        background: #edf0f7;
+        overflow: hidden;
+        margin: 10px 0 19px;
+      }
+      .bar span {
+        display: block;
+        height: 100%;
+        background: var(--blue);
+        border-radius: 20px;
+      }
+      .separator {
+        border: 0;
+        border-top: 1px solid var(--line);
+        margin: 20px 0;
+      }
+      .item {
+        padding: 15px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .item:last-child {
+        border-bottom: 0;
+      }
+      .item p {
+        margin: 5px 0;
+        font-size: 14px;
+      }
+      .empty {
+        text-align: center;
+        color: var(--muted);
+        padding: 30px 12px;
+      }
+      .tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      .tabs button {
+        border: 1px solid var(--line);
+        padding: 8px 17px;
+        background: white;
+        border-radius: 9px;
+        color: var(--muted);
+      }
+      .tabs button.active {
+        background: var(--blue);
+        color: white;
+        border-color: var(--blue);
+      }
+      .task-row {
+        display: grid;
+        grid-template-columns: 1fr 135px auto;
+        gap: 12px;
+        align-items: center;
+      }
+      .task-row select {
+        padding: 7px;
+        font-size: 12px;
+      }
+      .member {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 10px 0;
+      }
+      .pre {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+      .toolbar {
+        display: grid;
+        grid-template-columns: 1fr 180px;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      #toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        max-width: 90vw;
+        padding: 13px 22px;
+        background: var(--navy);
+        color: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px #10234425;
+        z-index: 100;
+        display: none;
+      }
+      @media (max-width: 1000px) {
+        .sidebar {
+          width: 205px;
+        }
+        .main {
+          margin-left: 205px;
+        }
+        .content {
+          padding: 25px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 700px) {
+        .login {
+          grid-template-columns: 1fr;
+        }
+        .login-story {
+          padding: 30px;
+          gap: 35px;
+        }
+        .login-story h1 {
+          font-size: 32px;
+        }
+        .login-story footer {
+          display: none;
+        }
+        .sidebar {
+          position: static;
+          width: 100%;
+          padding: 15px;
+          display: block;
+        }
+        .sidebar .logo {
+          margin: 0 0 15px;
+        }
+        .sidebar nav {
+          display: flex;
+          gap: 5px;
+          overflow: auto;
+        }
+        .nav-item {
+          white-space: nowrap;
+          width: auto;
+          padding: 9px;
+        }
+        .nav-label,
+        .sidebar-bottom {
+          display: none;
+        }
+        .main {
+          margin-left: 0;
+        }
+        .topbar {
+          padding: 12px 18px;
+          height: auto;
+          gap: 10px;
+        }
+        .content {
+          padding: 22px 16px;
+        }
+        .card {
+          padding: 19px;
+        }
+        .banner {
+          padding: 22px;
+        }
+        h1 {
+          font-size: 26px;
+        }
+        .toolbar {
+          grid-template-columns: 1fr;
+        }
+        .task-row {
+          grid-template-columns: 1fr;
+          gap: 7px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="toast" role="status"></div>
+
+    <script>
+      "use strict";
+
+      /* DỮ LIỆU VÀ LƯU TRỮ */
+      const DB_KEY = "uit-project-demo-v1";
+      const SESSION_KEY = "uit-project-session";
+      const users = [
+        {
+          id: "sv01",
+          password: "demo123",
+          name: "Nguyễn Minh Anh",
+          role: "student",
+        },
+        {
+          id: "gv01",
+          password: "demo123",
+          name: "Trần Hoàng Phúc",
+          role: "lecturer",
+        },
+      ];
+      const members = [
+        "Nguyễn Minh Anh",
+        "Lê Tuấn Kiệt",
+        "Trần Thảo Vy",
+        "Phạm Gia Huy",
+      ];
+      const app = document.getElementById("app");
+      let page = "overview",
+        selectedId = "p1",
+        tab = "info";
+      let query = "",
+        filter = "all",
+        toastTimer;
+
+      function seed() {
+        const next = new Date();
+        next.setDate(next.getDate() + 7);
+        next.setHours(23, 59, 0, 0);
+        return {
+          projects: [
+            {
+              id: "p1",
+              owner: "sv01",
+              lecturer: "gv01",
+              title: "Nền tảng quản lý đồ án môn học",
+              course: "Internet và công nghệ Web",
+              code: "ITW · Lớp 01",
+              group: "Nhóm 07",
+              description:
+                "Xây dựng website giúp sinh viên quản lý công việc, nộp bài và nhận phản hồi từ giảng viên. Giao diện được phát triển bằng HTML, CSS và JavaScript thuần.",
+              status: "approved",
+              decision: "",
+              milestone: "Báo cáo tiến độ và prototype",
+              due: next.toISOString(),
+              tasks: [
+                {
+                  id: "t1",
+                  title: "Khảo sát nhu cầu sinh viên",
+                  assignee: members[0],
+                  status: "done",
+                },
+                {
+                  id: "t2",
+                  title: "Thiết kế giao diện tổng quan",
+                  assignee: members[2],
+                  status: "doing",
+                },
+                {
+                  id: "t3",
+                  title: "Xây dựng màn hình đăng nhập",
+                  assignee: members[1],
+                  status: "todo",
+                },
+              ],
+              submissions: [],
+              score: "",
+              published: false,
+            },
+            {
+              id: "p2",
+              owner: "sv02",
+              lecturer: "gv01",
+              title: "Thư viện tài liệu học tập",
+              course: "Internet và công nghệ Web",
+              code: "ITW · Lớp 01",
+              group: "Nhóm 03",
+              description: "Website tổ chức và tìm kiếm tài liệu theo môn học.",
+              status: "pending",
+              decision: "",
+              milestone: "Báo cáo tiến độ và prototype",
+              due: next.toISOString(),
+              tasks: [],
+              submissions: [],
+              score: "",
+              published: false,
+            },
+          ],
+        };
+      }
+      function readDB() {
+        try {
+          const raw = localStorage.getItem(DB_KEY);
+          if (raw) {
+            const value = JSON.parse(raw);
+            if (value && Array.isArray(value.projects)) return value;
+          }
+        } catch (_) {}
+        return seed();
+      }
+      let db = readDB();
+
+      function save() {
+        try {
+          localStorage.setItem(DB_KEY, JSON.stringify(db));
+          return true;
+        } catch (_) {
+          toast("Không thể lưu. Hãy kiểm tra quyền lưu trữ của trình duyệt.");
+          return false;
+        }
+      }
+      function currentUser() {
+        try {
+          const id = sessionStorage.getItem(SESSION_KEY);
+          return users.find((u) => u.id === id);
+        } catch (_) {
+          return null;
+        }
+      }
+      function escapeHTML(value) {
+        return String(value ?? "").replace(
+          /[&<>"']/g,
+          (ch) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[ch],
+        );
+      }
+      const e = escapeHTML;
+      const uid = () =>
+        Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+      function toast(message) {
+        const box = document.getElementById("toast");
+        box.textContent = message;
+        box.style.display = "block";
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => (box.style.display = "none"), 3600);
+      }
+      function formatDate(value) {
+        return new Date(value).toLocaleString("vi-VN", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      }
+      function localDate(value) {
+        const d = new Date(value);
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}T${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+      }
+      function visibleProjects() {
+        const user = currentUser();
+        if (!user) return [];
+        return db.projects.filter((p) =>
+          user.role === "student"
+            ? p.owner === user.id
+            : p.lecturer === user.id,
+        );
+      }
+      function project() {
+        return visibleProjects().find((p) => p.id === selectedId);
+      }
+      function progress(p) {
+        return p.tasks.length
+          ? Math.round(
+              (p.tasks.filter((t) => t.status === "done").length /
+                p.tasks.length) *
+                100,
+            )
+          : 0;
+      }
+      function badge(status) {
+        const labels = {
+          approved: ["green", "Đã duyệt"],
+          pending: ["orange", "Chờ duyệt"],
+          revision: ["red", "Cần chỉnh sửa"],
+        };
+        const [color, label] = labels[status] || ["", "Chưa xác định"];
+        return `<span class="tag ${color}">${label}</span>`;
+      }
+      function safeURL(value) {
+        try {
+          const url = new URL(value);
+          return ["https:", "http:"].includes(url.protocol) ? url.href : null;
+        } catch (_) {
+          return null;
+        }
+      }
+      function field(label, control) {
+        return `<div class="field"><label>${label}${control}</label></div>`;
+      }
+      function openProject(id) {
+        selectedId = id;
+        page = "detail";
+        tab = "info";
+        render();
+      }
+
+      /* ĐĂNG NHẬP */
+      function loginView() {
+        app.innerHTML = `
+  <div class="login">
+    <section class="login-story">
+      <div class="logo"><span class="mark">U</span> UIT Project</div>
+      <div>
+        <span class="tag">KHÔNG GIAN ĐỒ ÁN CỦA BẠN</span>
+        <h1>Từ ý tưởng đầu tiên.<br>Đến đồ án hoàn chỉnh.</h1>
+        <p>Kết nối công việc, thành viên và giảng viên trong một không gian học tập có tổ chức.</p>
+        <div class="flex"><span class="tag">01 / Lên kế hoạch</span>
+        <span class="tag">02 / Cùng thực hiện</span><span class="tag">03 / Hoàn thành</span></div>
+      </div>
+      <footer><small>Prototype môn học · HTML / CSS / JavaScript</small></footer>
+    </section>
+    <section class="login-form">
+      <div class="login-box">
+        <small>CHÀO MỪNG TRỞ LẠI</small>
+        <h1 style="margin-top:12px">Đăng nhập</h1>
+        <p class="muted">Tiếp tục hành trình đồ án của bạn.</p>
+        <form id="login">
+          ${field("Tài khoản", '<input name="username" autocomplete="username" placeholder="Nhập tài khoản" required>')}
+          ${field("Mật khẩu", '<input name="password" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu" required>')}
+          <p id="login-error" class="error" role="alert"></p>
+          <button class="btn" style="width:100%">Đăng nhập →</button>
+        </form>
+        <div class="demo">
+          <strong>Tài khoản trải nghiệm</strong><br>
+          Sinh viên: <b>sv01</b> · Giảng viên: <b>gv01</b><br>
+          Mật khẩu chung: <b>demo123</b>
+        </div>
+        <p class="muted" style="font-size:12px;margin-top:18px">
+          Đăng nhập mô phỏng. Dữ liệu chỉ lưu trên trình duyệt này.
+          Đây là đồ án mẫu, không phải hệ thống chính thức của UIT.
+        </p>
+      </div>
+    </section>
+  </div>`;
+      }
+
+      /* BỐ CỤC CHUNG */
+      function render() {
+        const user = currentUser();
+        if (!user) {
+          loginView();
+          return;
+        }
+        const lecturer = user.role === "lecturer";
+        const titles = {
+          overview: "Tổng quan",
+          projects: "Đồ án",
+          detail: "Chi tiết đồ án",
+          deadlines: "Mốc thời gian",
+          register: "Đăng ký đề tài",
+        };
+        app.innerHTML = `
+    <aside class="sidebar">
+      <div class="logo"><span class="mark">U</span> UIT Project</div>
+      <div class="nav-label">KHÔNG GIAN LÀM VIỆC</div>
+      <nav>
+        ${nav("overview", "◫", "Tổng quan")}
+        ${nav("projects", "▦", lecturer ? "Quản lý đồ án" : "Đồ án của tôi")}
+        ${nav("deadlines", "◷", "Mốc thời gian")}
+        ${!lecturer ? nav("register", "＋", "Đăng ký đề tài") : ""}
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="note">Một bước tiến nhỏ mỗi ngày.<br><b>Một đồ án tốt hơn mỗi tuần.</b></div>
+        <button class="nav-item" data-action="reset" style="margin-top:15px">↻ Khôi phục dữ liệu mẫu</button>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <span class="muted">Không gian học tập / <b>${titles[page]}</b></span>
+        <div class="flex">
+          <div class="avatar">${lecturer ? "GV" : "SV"}</div>
+          <div><strong style="font-size:13px">${e(user.name)}</strong>
+          <div class="muted" style="font-size:11px">${lecturer ? "Giảng viên" : "Sinh viên"}</div></div>
+          <button class="btn outline small" data-action="logout">Đăng xuất</button>
+        </div>
+      </header>
+      <div class="content">
+        ${
+          page === "overview"
+            ? overview()
+            : page === "projects"
+              ? projectList()
+              : page === "detail"
+                ? detail()
+                : page === "deadlines"
+                  ? deadlines()
+                  : register()
+        }
+        <p class="muted" style="font-size:11px">UIT Project · Bản mẫu frontend · Dữ liệu demo được lưu tại trình duyệt</p>
+      </div>
+    </main>`;
+      }
+      function nav(target, icon, label) {
+        return `<button class="nav-item ${page === target ? "active" : ""}" data-page="${target}">${icon} &nbsp; ${label}</button>`;
+      }
+      function projectCard(p) {
+        return `<article class="card project">
+    <div class="flex between"><span class="tag">${e(p.code)}</span>${badge(p.status)}</div>
+    <h2>${e(p.title)}</h2><p class="muted">${e(p.course)} · ${e(p.group)}</p>
+    <div class="flex between"><small>Tiến độ công việc</small><strong>${progress(p)}%</strong></div>
+    <div class="bar"><span style="width:${progress(p)}%"></span></div>
+    <div class="flex between"><small>${p.tasks.filter((t) => t.status === "done").length}/${p.tasks.length} công việc hoàn thành</small>
+    <button class="btn light small" data-open="${e(p.id)}">Xem đồ án ↗</button></div>
+  </article>`;
+      }
+      function overview() {
+        const list = visibleProjects(),
+          lecturer = currentUser().role === "lecturer";
+        const taskCount = list.reduce(
+          (n, p) => n + p.tasks.filter((t) => t.status !== "done").length,
+          0,
+        );
+        const submissions = list.reduce((n, p) => n + p.submissions.length, 0);
+        return `
+    <div class="heading"><small>WORKSPACE / TỔNG QUAN</small>
+      <h1 style="margin-top:8px">Chào ${lecturer ? "thầy Phúc" : "Minh Anh"} 👋</h1>
+      <p class="muted">${lecturer ? "Theo dõi tiến độ và đồng hành cùng các nhóm đồ án." : "Mọi thứ bạn cần cho một tuần làm đồ án hiệu quả."}</p>
+    </div>
+    <div class="banner flex between">
+      <div><span class="tag">HỌC TẬP CÓ KẾ HOẠCH</span>
+        <h2 style="font-size:24px;margin:12px 0 6px">Ý tưởng tốt bắt đầu từ những việc nhỏ.</h2>
+        <p>${lecturer ? "Xem đề tài cần duyệt và phản hồi bài nộp của sinh viên." : "Cập nhật công việc hôm nay để cả nhóm cùng tiến về phía trước."}</p>
+      </div>
+      <button class="btn" data-page="projects">Đến danh sách đồ án →</button>
+    </div>
+    <div class="stats">
+      ${stat("Đồ án", list.length)}
+      ${stat("Đề tài chờ duyệt", list.filter((p) => p.status === "pending").length)}
+      ${stat("Công việc chưa xong", taskCount)}
+      ${stat("Lượt nộp bài", submissions)}
+    </div>
+    <div class="grid">
+      <section><div class="flex between"><h2>${lecturer ? "Các nhóm phụ trách" : "Đồ án đang thực hiện"}</h2>
+      <button class="btn light small" data-page="projects">Xem tất cả</button></div>
+      ${list.slice(0, 3).map(projectCard).join("") || '<div class="card empty">Chưa có đồ án.</div>'}</section>
+      <section><div class="card"><h2>◷ Mốc nộp gần nhất</h2>
+      ${
+        [...list]
+          .filter((p) => p.due)
+          .sort((a, b) => new Date(a.due) - new Date(b.due))
+          .slice(0, 4)
+          .map(
+            (p) => `
+        <div class="item"><span class="tag ${new Date(p.due) < new Date() ? "red" : "orange"}">
+          ${new Date(p.due) < new Date() ? "Đã qua hạn" : "Sắp đến hạn"}</span>
+          <h3 style="margin:9px 0 4px">${e(p.milestone)}</h3>
+          <p class="muted">${e(p.group)} · ${formatDate(p.due)}</p>
+          <button class="btn outline small" data-open="${e(p.id)}">Chi tiết</button>
+        </div>`,
+          )
+          .join("") || '<p class="empty">Chưa có mốc nộp.</p>'
+      }
+      </div><div class="card"><h2>Góc làm việc</h2>
+      <p class="muted">${lecturer ? "Phản hồi cụ thể giúp nhóm biết cần cải thiện điều gì trong lần nộp tiếp theo." : "Chia công việc thành các phần nhỏ, có người phụ trách và trạng thái rõ ràng."}</p>
+      </div></section>
+    </div>`;
+      }
+      function stat(label, value) {
+        return `<div class="stat"><span class="dot"></span><small>${label}</small><strong>${value}</strong></div>`;
+      }
+      function projectList() {
+        const list = visibleProjects().filter(
+          (p) =>
+            (p.title + " " + p.course + " " + p.group)
+              .toLocaleLowerCase("vi")
+              .includes(query.toLocaleLowerCase("vi")) &&
+            (filter === "all" || p.status === filter),
+        );
+        return `<div class="heading"><h1>Không gian đồ án</h1>
+    <p class="muted">Theo dõi đề tài, công việc và kết quả tại một nơi.</p></div>
+    <form id="search" class="toolbar">
+      <input name="query" aria-label="Tìm kiếm đồ án" placeholder="Tìm theo đề tài, môn học hoặc nhóm..." value="${e(query)}">
+      <div class="flex" style="flex-wrap:nowrap">
+        <select name="filter" aria-label="Trạng thái">
+          ${[
+            ["all", "Tất cả"],
+            ["pending", "Chờ duyệt"],
+            ["approved", "Đã duyệt"],
+            ["revision", "Cần sửa"],
+          ]
+            .map(
+              ([v, l]) =>
+                `<option value="${v}" ${filter === v ? "selected" : ""}>${l}</option>`,
+            )
+            .join("")}
+        </select><button class="btn">Lọc</button>
+      </div>
+    </form>
+    <div class="grid">${list.map(projectCard).join("") || '<div class="card empty">Không tìm thấy đồ án phù hợp.</div>'}</div>`;
+      }
+      function register() {
+        if (currentUser().role !== "student") return "";
+        return `<div class="heading"><h1>Đăng ký đề tài</h1><p class="muted">Mô tả ý tưởng để giảng viên xem xét và góp ý.</p></div>
+    <div class="grid"><form id="register" class="card">
+      ${field("Tên đề tài", '<input name="title" required maxlength="120" placeholder="Ví dụ: Website trao đổi tài liệu học tập">')}
+      ${field("Môn học", '<select name="course"><option>Internet và công nghệ Web</option></select>')}
+      ${field("Mô tả và mục tiêu", '<textarea name="description" required maxlength="3000" placeholder="Đồ án giải quyết vấn đề gì? Có những chức năng chính nào?"></textarea>')}
+      <p class="muted">Nhóm 07 · Giảng viên phụ trách: Trần Hoàng Phúc</p>
+      <button class="btn">Gửi đăng ký →</button>
+    </form><div class="card" style="align-self:start"><h2>Một đề xuất rõ ràng gồm</h2>
+      <p>01. Vấn đề muốn giải quyết</p><p>02. Người sử dụng chính</p>
+      <p>03. Các chức năng dự kiến</p><p>04. Phạm vi thực hiện</p>
+      <hr class="separator"><small>Demo quy định một đồ án cho Nhóm 07 trong lớp này. Bạn có thể sửa đề tài khi giảng viên yêu cầu.</small>
+    </div></div>`;
+      }
+      function detail() {
+        const p = project();
+        if (!p)
+          return '<div class="card empty">Không tìm thấy đồ án thuộc phạm vi tài khoản.</div>';
+        return `<button class="btn outline small" data-page="projects" style="margin-bottom:20px">← Danh sách đồ án</button>
+    <div class="heading">${badge(p.status)}<h1 style="margin-top:12px">${e(p.title)}</h1>
+    <p class="muted">${e(p.course)} · ${e(p.group)}</p></div>
+    <div class="tabs">${[
+      ["info", "Tổng quan"],
+      ["tasks", "Công việc"],
+      ["submissions", "Bài nộp & phản hồi"],
+    ]
+      .map(
+        ([v, l]) => `
+      <button class="${tab === v ? "active" : ""}" data-tab="${v}">${l}</button>`,
+      )
+      .join("")}</div>
+    ${tab === "info" ? info(p) : tab === "tasks" ? tasks(p) : submissions(p)}`;
+      }
+      function info(p) {
+        const lecturer = currentUser().role === "lecturer";
+        return `<div class="grid"><section>
+    <div class="card"><h2>Thông tin đề tài</h2><p class="pre">${e(p.description)}</p>
+      <hr class="separator"><div class="flex between"><small>Tiến độ</small><b>${progress(p)}%</b></div>
+      <div class="bar"><span style="width:${progress(p)}%"></span></div>
+      ${p.decision ? `<div class="note"><b>Ý kiến về đề tài</b><p class="pre">${e(p.decision)}</p></div>` : ""}
+    </div>
+    ${
+      lecturer
+        ? `<form id="review" class="card"><h2>Duyệt đề tài</h2>
+      ${field("Ý kiến gửi nhóm", `<textarea name="decision" maxlength="2000">${e(p.decision)}</textarea>`)}
+      <div class="flex"><button class="btn" name="decisionType" value="approved">Duyệt đề tài</button>
+      <button class="btn outline" name="decisionType" value="revision">Yêu cầu chỉnh sửa</button></div></form>`
+        : p.status === "revision"
+          ? `<form id="edit-project" class="card"><h2>Chỉnh sửa đề xuất</h2>
+        ${field("Tên đề tài", `<input name="title" required maxlength="120" value="${e(p.title)}">`)}
+        ${field("Mô tả", `<textarea name="description" required maxlength="3000">${e(p.description)}</textarea>`)}
+        <button class="btn">Gửi duyệt lại</button></form>`
+          : ""
+    }
+    </section><section><div class="card"><h2>Thành viên nhóm</h2>
+      ${(p.owner === "sv01" ? members : ["Hoàng Bảo", "Vũ Ngọc"])
+        .map(
+          (name, i) => `<div class="member">
+        <span class="avatar">${i + 1}</span><div><b>${e(name)}</b><div class="muted" style="font-size:12px">${i === 0 ? "Nhóm trưởng" : "Thành viên"}</div></div>
+      </div>`,
+        )
+        .join("")}</div>
+      <div class="card"><h2>Mốc nộp hiện tại</h2><p>${e(p.milestone || "Chưa được thiết lập")}</p>
+      <small>${p.due ? formatDate(p.due) : "Chưa có thời hạn"}</small></div>
+    </section></div>`;
+      }
+      function tasks(p) {
+        const student = currentUser().role === "student";
+        return `<div class="grid"><div class="card"><h2>Bảng công việc</h2>
+    ${
+      p.tasks
+        .map(
+          (t) => `<div class="item task-row">
+      <div><b>${e(t.title)}</b><div class="muted" style="font-size:12px">${e(t.assignee)}</div></div>
+      <select aria-label="Trạng thái ${e(t.title)}" data-task-status="${e(t.id)}" ${!student ? "disabled" : ""}>
+      ${[
+        ["todo", "Chưa làm"],
+        ["doing", "Đang làm"],
+        ["done", "Hoàn thành"],
+      ]
+        .map(
+          ([v, l]) =>
+            `<option value="${v}" ${t.status === v ? "selected" : ""}>${l}</option>`,
+        )
+        .join("")}
+      </select>
+      ${student ? `<button class="btn danger small" data-delete-task="${e(t.id)}">Xóa</button>` : ""}
+    </div>`,
+        )
+        .join("") ||
+      '<div class="empty">Chưa có công việc. Hãy thêm việc đầu tiên.</div>'
+    }
+    </div>${
+      student
+        ? `<form id="task" class="card" style="align-self:start"><h2>Thêm công việc</h2>
+      ${field("Tên công việc", '<input name="title" required maxlength="150" placeholder="Công việc cần hoàn thành">')}
+      ${field("Người phụ trách", `<select name="assignee">${members.map((m) => `<option>${e(m)}</option>`).join("")}</select>`)}
+      <button class="btn">＋ Thêm công việc</button></form>`
+        : '<div class="card" style="align-self:start"><h2>Theo dõi tiến độ</h2><p class="muted">Sinh viên cập nhật công việc; giảng viên theo dõi trạng thái tại đây.</p></div>'
+    }</div>`;
+      }
+      function submissions(p) {
+        const lecturer = currentUser().role === "lecturer";
+        return `<div class="grid"><section>
+    <div class="card"><h2>Lịch sử bài nộp</h2>
+    ${
+      [...p.submissions]
+        .reverse()
+        .map(
+          (s, i) => `<article class="item">
+      <div class="flex between"><b>Lần nộp ${p.submissions.length - i}</b>
+        <span class="tag ${s.late ? "orange" : "green"}">${s.late ? "Nộp trễ" : "Đúng hạn"}</span></div>
+      <small>${formatDate(s.at)} · ${e(s.milestone)}</small>
+      <p><a href="${e(safeURL(s.url) || "#")}" target="_blank" rel="noopener noreferrer">Mở bài nộp ↗</a></p>
+      <p class="pre">${e(s.note)}</p>
+      ${
+        s.feedback
+          ? `<div class="note"><b>Phản hồi giảng viên</b><p class="pre">${e(s.feedback)}</p></div>`
+          : "<small>Chưa có phản hồi.</small>"
+      }
+      ${
+        lecturer
+          ? `<form data-feedback="${e(s.id)}" style="margin-top:12px">
+        <label>Phản hồi cho lần nộp này<textarea name="feedback" required maxlength="3000">${e(s.feedback)}</textarea></label>
+        <button class="btn light small">Lưu phản hồi</button></form>`
+          : ""
+      }
+    </article>`,
+        )
+        .join("") || '<div class="empty">Chưa có bài nộp.</div>'
+    }</div>
+    <div class="card"><h2>Kết quả đánh giá</h2>
+      ${
+        lecturer
+          ? `<form id="grade">
+        ${field("Điểm (0–10)", `<input type="number" name="score" min="0" max="10" step="0.1" required value="${e(p.score)}">`)}
+        <div class="flex"><button class="btn outline" name="mode" value="draft">Lưu nháp</button>
+        <button class="btn" name="mode" value="publish">Công bố điểm</button></div>
+        <small>${p.published ? "Điểm đang được công bố." : "Điểm chưa được công bố."}</small>
+      </form>`
+          : p.published
+            ? `<strong style="font-size:36px;color:var(--blue)">${e(p.score)} <small>/ 10</small></strong>`
+            : '<p class="muted">Giảng viên chưa công bố điểm.</p>'
+      }
+    </div></section><section>
+    ${
+      !lecturer
+        ? `<form id="submission" class="card"><h2>Nộp bài</h2>
+      <p>${e(p.milestone || "Chưa có mốc nộp")}</p><p class="muted">${p.due ? "Hạn nộp: " + formatDate(p.due) : ""}</p>
+      ${p.status !== "approved" ? '<p class="tag orange">Đề tài cần được duyệt trước khi nộp.</p>' : ""}
+      ${field("Liên kết bài nộp", '<input type="url" name="url" required placeholder="https://github.com/...">')}
+      ${field("Ghi chú", '<textarea name="note" maxlength="2000" placeholder="Nội dung đã hoàn thành, phần cần góp ý..."></textarea>')}
+      <button class="btn" ${p.status !== "approved" || !p.due ? "disabled" : ""}>Gửi bài nộp →</button>
+      <p class="muted" style="font-size:12px;margin-top:12px">Mỗi lần gửi được lưu thành một phiên bản. Bài trễ hạn vẫn được ghi nhận và đánh dấu.</p>
+    </form>`
+        : `<div class="card"><h2>Phản hồi theo phiên bản</h2><p class="muted">Mỗi phản hồi được gắn với đúng lần nộp. Kiểm tra quyền truy cập liên kết trước khi đánh giá.</p></div>`
+    }
+    </section></div>`;
+      }
+      function deadlines() {
+        const lecturer = currentUser().role === "lecturer";
+        return `<div class="heading"><h1>Mốc thời gian</h1>
+    <p class="muted">${lecturer ? "Thiết lập mốc nộp hiện tại cho từng nhóm." : "Sắp xếp công việc theo những thời hạn sắp tới."}</p></div>
+    <div class="grid">${
+      visibleProjects()
+        .map(
+          (p) => `<div class="card">
+      <span class="tag">${e(p.group)}</span><h2 style="margin-top:12px">${e(p.title)}</h2>
+      ${
+        lecturer
+          ? `<form data-deadline="${e(p.id)}">
+        ${field("Tên mốc nộp", `<input name="milestone" required maxlength="150" value="${e(p.milestone)}">`)}
+        ${field("Hạn nộp", `<input name="due" type="datetime-local" required value="${p.due ? localDate(p.due) : ""}">`)}
+        <button class="btn">Lưu mốc nộp</button></form>`
+          : `<p>${e(p.milestone || "Chưa có mốc nộp")}</p><p class="muted">${p.due ? formatDate(p.due) : ""}</p>
+        <button class="btn light" data-open="${e(p.id)}">Mở đồ án →</button>`
+      }
+    </div>`,
+        )
+        .join("") || '<div class="card empty">Chưa có đồ án.</div>'
+    }</div>`;
+      }
+
+      /* XỬ LÝ TƯƠNG TÁC */
+      app.addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        const user = currentUser();
+        if (button.dataset.action === "logout") {
+          sessionStorage.removeItem(SESSION_KEY);
+          page = "overview";
+          render();
+          return;
+        }
+        if (!user) return;
+        if (button.dataset.page) {
+          page = button.dataset.page;
+          render();
+        }
+        if (button.dataset.open) openProject(button.dataset.open);
+        if (button.dataset.tab) {
+          tab = button.dataset.tab;
+          render();
+        }
+        if (button.dataset.deleteTask && user.role === "student") {
+          const p = project();
+          if (p && confirm("Xóa công việc này?")) {
+            p.tasks = p.tasks.filter((t) => t.id !== button.dataset.deleteTask);
+            save();
+            render();
+            toast("Đã xóa công việc.");
+          }
+        }
+        if (button.dataset.action === "reset") {
+          if (
+            confirm(
+              "Khôi phục dữ liệu mẫu? Các thay đổi demo hiện tại sẽ bị xóa.",
+            )
+          ) {
+            db = seed();
+            save();
+            page = "overview";
+            render();
+            toast("Đã khôi phục dữ liệu mẫu.");
+          }
+        }
+      });
+      app.addEventListener("change", (event) => {
+        const id = event.target.dataset.taskStatus;
+        if (!id || currentUser()?.role !== "student") return;
+        const task = project()?.tasks.find((t) => t.id === id);
+        if (task && ["todo", "doing", "done"].includes(event.target.value)) {
+          task.status = event.target.value;
+          save();
+          render();
+          toast("Đã cập nhật trạng thái.");
+        }
+      });
+      app.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const form = event.target,
+          data = new FormData(form);
+        const get = (name) => String(data.get(name) || "").trim();
+
+        if (form.id === "login") {
+          const user = users.find(
+            (u) => u.id === get("username") && u.password === get("password"),
+          );
+          if (!user) {
+            document.getElementById("login-error").textContent =
+              "Tài khoản hoặc mật khẩu không đúng.";
+            return;
+          }
+          try {
+            sessionStorage.setItem(SESSION_KEY, user.id);
+          } catch (_) {
+            document.getElementById("login-error").textContent =
+              "Hãy cho phép trình duyệt lưu dữ liệu để đăng nhập.";
+            return;
+          }
+          page = "overview";
+          render();
+          return;
+        }
+
+        const user = currentUser();
+        if (!user) {
+          render();
+          return;
+        }
+        const student = user.role === "student",
+          p = project();
+
+        if (form.id === "search") {
+          query = get("query");
+          filter = get("filter");
+          render();
+          return;
+        }
+
+        if (form.id === "register" && student) {
+          if (visibleProjects().some((item) => item.course === get("course"))) {
+            toast(
+              "Nhóm đã có đồ án môn này. Hãy mở đề tài hiện tại để theo dõi hoặc chỉnh sửa.",
+            );
+            return;
+          }
+          if (!get("title") || !get("description"))
+            return toast("Vui lòng nhập đầy đủ nội dung.");
+          const id = uid();
+          db.projects.push({
+            id,
+            owner: user.id,
+            lecturer: "gv01",
+            title: get("title"),
+            course: get("course"),
+            code: "ITW · Lớp 01",
+            group: "Nhóm 07",
+            description: get("description"),
+            status: "pending",
+            decision: "",
+            milestone: "",
+            due: "",
+            tasks: [],
+            submissions: [],
+            score: "",
+            published: false,
+          });
+          save();
+          openProject(id);
+          toast("Đã gửi đăng ký đề tài.");
+          return;
+        }
+
+        if (form.dataset.deadline && !student) {
+          const target = visibleProjects().find(
+            (item) => item.id === form.dataset.deadline,
+          );
+          const date = new Date(get("due"));
+          if (!target || !get("milestone") || Number.isNaN(date.getTime()))
+            return toast("Mốc nộp chưa hợp lệ.");
+          target.milestone = get("milestone");
+          target.due = date.toISOString();
+          save();
+          render();
+          toast("Đã lưu mốc nộp.");
+          return;
+        }
+        if (!p) return;
+
+        if (form.id === "review" && !student) {
+          const type = event.submitter?.value;
+          if (!["approved", "revision"].includes(type)) return;
+          if (type === "revision" && !get("decision"))
+            return toast("Hãy ghi nội dung nhóm cần chỉnh sửa.");
+          p.status = type;
+          p.decision = get("decision");
+        } else if (
+          form.id === "edit-project" &&
+          student &&
+          p.status === "revision"
+        ) {
+          if (!get("title") || !get("description"))
+            return toast("Vui lòng nhập đầy đủ nội dung.");
+          p.title = get("title");
+          p.description = get("description");
+          p.status = "pending";
+        } else if (form.id === "task" && student) {
+          if (!get("title")) return toast("Hãy nhập tên công việc.");
+          p.tasks.push({
+            id: uid(),
+            title: get("title"),
+            assignee: get("assignee"),
+            status: "todo",
+          });
+        } else if (form.id === "submission" && student) {
+          if (p.status !== "approved" || !p.due)
+            return toast("Đề tài cần được duyệt và có mốc nộp.");
+          const url = safeURL(get("url"));
+          if (!url)
+            return toast("Liên kết phải bắt đầu bằng http:// hoặc https://.");
+          p.submissions.push({
+            id: uid(),
+            url,
+            note: get("note"),
+            at: new Date().toISOString(),
+            milestone: p.milestone,
+            due: p.due,
+            late: Date.now() > new Date(p.due).getTime(),
+            feedback: "",
+          });
+        } else if (form.dataset.feedback && !student) {
+          const submission = p.submissions.find(
+            (s) => s.id === form.dataset.feedback,
+          );
+          if (!submission || !get("feedback"))
+            return toast("Hãy nhập phản hồi.");
+          submission.feedback = get("feedback");
+        } else if (form.id === "grade" && !student) {
+          const score = Number(get("score"));
+          if (
+            get("score") === "" ||
+            !Number.isFinite(score) ||
+            score < 0 ||
+            score > 10
+          )
+            return toast("Điểm phải từ 0 đến 10.");
+          p.score = score;
+          p.published = event.submitter?.value === "publish";
+        } else return;
+
+        save();
+        render();
+        toast("Đã lưu thay đổi.");
+      });
+      window.addEventListener("storage", (event) => {
+        if (event.key === DB_KEY) {
+          db = readDB();
+          render();
+        }
+      });
+      render();
+    </script>
+  </body>
+</html>
